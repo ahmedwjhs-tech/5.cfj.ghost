@@ -29,12 +29,14 @@
         .btn:hover {
             background-color: #005bb5;
         }
-        .support-link {
+        .support-container {
             margin-top: 25px;
-            display: block;
+            font-size: 18px;
+        }
+        .support-link {
             color: #0070d1;
             text-decoration: none;
-            font-size: 18px;
+            margin-right: 5px;
         }
         .support-link:hover {
             text-decoration: underline;
@@ -42,14 +44,16 @@
     </style>
 </head>
 <body>
-    <img src="ghost.jpg" alt="Ghost" style="width: 180px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+    <img src="631fd36783d79e1e2ea3ea7338b0b8b0.jpg" alt="Ghost" style="width: 180px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
     <h1>مرحباً بك في منصة التهكير الخاصة بك</h1>
     <p>اضغط على الزر أدناه لتفعيل GoldHEN:</p>
     
     <button id="jailbreakBtn" class="btn" onclick="startJailbreak()">تفعيل التهكير</button>
 
-    <br>
-    <a href="https://vm.tiktok.com/ZS9U7uhBD8SE4-ap3Mk/" target="_blank" class="support-link">Ghost</a>
+    <div class="support-container">
+        <span>Ghost للتواصل:</span>
+        <a href="https://vm.tiktok.com/ZS9U7uhBD8SE4-ap3Mk/" target="_blank" class="support-link">اضغط هنا</a>
+    </div>
 
     <script>
         function startJailbreak() {
