@@ -1,100 +1,141 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PS4 Jailbreak 13.52</title>
-<style>
-body {
-font-family: Arial, sans-serif;
-background-color: #0d0d0d;
-color: #fff;
-text-align: center;
-margin: 0;
-padding: 0;
-}
-#loading {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: #000;
-z-index: 1000;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-}
-.spinner {
-width: 70px;
-height: 70px;
-border: 8px solid #333;
-border-top: 8px solid #ff003c;
-border-radius: 50%;
-animation: spin 1s linear infinite;
-}
-@keyframes spin {
-0% { transform: rotate(0deg); }
-100% { transform: rotate(360deg); }
-}
-.main-container {
-margin-top: 50px;
-}
-.ghost-img {
-width: 200px;
-height: 200px;
-border-radius: 50%;
-border: 5px solid #ff003c;
-box-shadow: 0 0 15px #ff003c;
-}
-h1 {
-margin-top: 20px;
-}
-.btn {
-padding: 15px 30px;
-font-size: 18px;
-font-weight: bold;
-color: #fff;
-background: #ff003c;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-text-decoration: none;
-display: inline-block;
-margin: 15px;
-box-shadow: 0 0 10px #ff003c;
-}
-.btn-support {
-background: #25efd5;
-color: #000;
-box-shadow: 0 0 10px #25efd5;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS4 Jailbreak 13.52</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0d0d0d;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 8px solid #333;
+            border-top: 8px solid #ff003c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .main-container {
+            margin-top: 50px;
+        }
+        .ghost-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid #ff003c;
+            box-shadow: 0 0 15px #ff003c;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background: #ff003c;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 15px;
+            box-shadow: 0 0 10px #ff003c;
+        }
+        .btn-support {
+            background: #25efd5;
+            color: #000;
+            box-shadow: 0 0 10px #25efd5;
+        }
+        #progress-text {
+            font-size: 24px;
+            margin-top: 15px;
+            color: #ff003c;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<div id="loading">
-<div class="spinner"></div>
-<h2 style="margin-top: 20px;">يتم التحضير...</h2>
-</div>
-<div class="main-container">
-<!-- تأكد من كتابة اسم الصورة بشكل صحيح -->
-<img src="631fd36783d79e1e2ea3ea7338b0b8b0.jpg" alt="Ghost" class="ghost-img">
-<h1>منصة التهكير الخاصة بك</h1>
-<div>
-<button onclick="alert('جاري تفعيل GoldHen...')" class="btn">تفعيل GoldHen</button>
-</div>
-<div>
-<a href="https://www.tiktok.com/" class="btn btn-support">رابط دعم التيك توك</a>
-</div>
-</div>
-<script>
-// إخفاء شاشة التحميل بعد 3 ثوانٍ
-window.onload = function() {
-setTimeout(function() {
-document.getElementById('loading').style.display = 'none';
-}, 3000);
-};
-</script>
+    <div id="loading">
+        <div class="spinner"></div>
+        <div id="progress-text">جاري التحميل: 0%</div>
+    </div>
+
+    <div class="main-container">
+        <!-- صورة غوست -->
+        <img src="631fd36783d79e1e2ea3ea7338b0b8b0.jpg" alt="Ghost" class="ghost-img">
+        <h1>منصة التهكير الخاصة بك</h1>
+        
+        <div>
+            <button onclick="startJailbreak()" class="btn">تفعيل GoldHen</button>
+        </div>
+        <div>
+            <a href="https://www.tiktok.com/" class="btn btn-support">رابط دعم التيك توك</a>
+        </div>
+    </div>
+
+    <script>
+        // دالة لتحميل النسبة تدريجياً عند فتح الصفحة أو الضغط على الزر
+        function startLoading(onComplete) {
+            let loadingScreen = document.getElementById('loading');
+            let progressText = document.getElementById('progress-text');
+            loadingScreen.style.display = 'flex';
+            let percent = 0;
+            
+            let interval = setInterval(function() {
+                percent += 2;
+                if (percent <= 100) {
+                    progressText.innerText = "جاري التحميل: " + percent + "%";
+                } else {
+                    clearInterval(interval);
+                    loadingScreen.style.display = 'none';
+                    if (onComplete) onComplete();
+                }
+            }, 40); // سرعة عد العداد
+        }
+
+        // تشغيل التحميل تلقائياً عند الدخول للصفحة
+        window.onload = function() {
+            startLoading(function() {
+                // الكود الذي يعمل تلقائياً بعد اكتمال التحميل 100%
+                triggerGoldHen();
+            });
+        };
+
+        // دالة تفعيل GoldHen عند الضغط يدوياً أو بعد اكتمال الـ Loading
+        function startJailbreak() {
+            startLoading(function() {
+                triggerGoldHen();
+            });
+        }
+
+        function triggerGoldHen() {
+            // ضع هنا كود التهكير الفعلي أو استدعاء ملفات الـ bin الخاصة بك
+            alert('تم إكمال التحميل بنجاح، جاري تفعيل GoldHen...');
+        }
+    </script>
 </body>
 </html>
