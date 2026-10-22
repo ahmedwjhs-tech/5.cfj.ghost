@@ -1,17 +1,56 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PS4 Jailbreak 13.52</title>
+    <title>PS4 Jailbreak - Ghost Edition</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #0d0d0d;
-            color: #fff;
+            background-color: #0b0b0b;
+            color: #ffffff;
             text-align: center;
             margin: 0;
             padding: 0;
+        }
+        .main-container {
+            margin-top: 40px;
+        }
+        .ghost-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid #ff003c;
+            box-shadow: 0 0 20px #ff003c;
+            object-fit: cover;
+        }
+        h1 {
+            margin-top: 15px;
+            color: #ff003c;
+            font-size: 24px;
+        }
+        .btn {
+            padding: 15px 35px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background: #ff003c;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 15px;
+            box-shadow: 0 0 12px #ff003c;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #d90032;
+        }
+        .btn-support {
+            background: #00f2fe;
+            color: #000;
+            box-shadow: 0 0 12px #00f2fe;
         }
         #loading {
             position: fixed;
@@ -19,7 +58,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 1000;
             display: none;
             flex-direction: column;
@@ -29,7 +68,7 @@
         .spinner {
             width: 70px;
             height: 70px;
-            border: 8px solid #333;
+            border: 8px solid #222;
             border-top: 8px solid #ff003c;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -38,63 +77,39 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .main-container {
-            margin-top: 50px;
-        }
-        .ghost-img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: 5px solid #ff003c;
-            box-shadow: 0 0 15px #ff003c;
-        }
-        h1 {
-            margin-top: 20px;
-        }
-        .btn {
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-            background: #ff003c;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin: 15px;
-            box-shadow: 0 0 10px #ff003c;
-        }
-        .btn-support {
-            background: #25efd5;
-            color: #000;
-            box-shadow: 0 0 10px #25efd5;
-        }
         #progress-text {
-            font-size: 26px;
+            font-size: 28px;
             margin-top: 20px;
             color: #ff003c;
+            font-weight: bold;
+        }
+        #status-msg {
+            font-size: 20px;
+            margin-top: 10px;
+            color: #25efd5;
             font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <!-- شاشة التحميل المخفية حتى يتم الضغط على الزر -->
+
+    <!-- شاشة التحميل -->
     <div id="loading">
-        <div class="spinner"></div>
-        <div id="progress-text">جاري التحميل: 0%</div>
+        <div class="spinner" id="loading-spinner"></div>
+        <div id="progress-text">0%</div>
+        <div id="status-msg">جاري تهيئة النظام...</div>
     </div>
 
     <div class="main-container">
         <!-- صورة غوست -->
         <img src="631fd36783d79e1e2ea3ea7338b0b8b0.jpg" alt="Ghost" class="ghost-img">
-        <h1>منصة التهكير الخاصة بك</h1>
+        <h1>منصة التهكير - Ghost Edition</h1>
         
         <div>
             <button onclick="startJailbreak()" class="btn">تفعيل GoldHen</button>
         </div>
         <div>
-            <a href="https://www.tiktok.com/" class="btn btn-support">رابط دعم التيك توك</a>
+            <a href="https://www.tiktok.com/" target="_blank" class="btn btn-support">رابط دعم التيك توك</a>
         </div>
     </div>
 
@@ -102,20 +117,43 @@
         function startJailbreak() {
             let loadingScreen = document.getElementById('loading');
             let progressText = document.getElementById('progress-text');
+            let statusMsg = document.getElementById('status-msg');
+            let spinner = document.getElementById('loading-spinner');
+            
             loadingScreen.style.display = 'flex';
             let percent = 0;
             
+            let stages = [
+                { at: 20, msg: "جاري فحص الثغرة..." },
+                { at: 50, msg: "جاري تحميل ملفات الـ Jb والذاكرة..." },
+                { at: 80, msg: "جاري حقن GoldHen.bin..." },
+                { at: 100, msg: "Ghost Done!" }
+            ];
+
             let interval = setInterval(function() {
-                percent += 2; // سرعة العد المئوي
-                if (percent <= 100) {
-                    progressText.innerText = "جاري التحميل: " + percent + "%";
-                } else {
+                percent += 1;
+                progressText.innerText = percent + "%";
+                
+                let currentStage = stages.find(s => s.at === percent);
+                if (currentStage) {
+                    statusMsg.innerText = currentStage.msg;
+                }
+
+                if (percent >= 100) {
                     clearInterval(interval);
-                    // عندما يصل 100% يختفي التحميل ويظهر Ghost Done
-                    loadingScreen.style.display = 'none';
-                    alert('Ghost Done! تم تفعيل GoldHen بنجاح');
+                    // إيقاف الدوران وإخفاء الـ Spinner، وإبقاء رسالة النجاح بوضوح
+                    spinner.style.display = 'none';
+                    progressText.style.color = '#25efd5';
+                    progressText.innerText = "Ghost Done!";
+                    statusMsg.innerText = "تم تفعيل GoldHen بنجاح!";
                     
-                    // مكان ربط ملفات الـ bin أو اكواد التفعيل الفعلية هنا
+                    // إخفاء شاشة التحميل بعد ثانيتين تلقائياً لتعود للصفحة الرئيسية
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        // إعادة تعيين الشاشة تحسباً لإعادة المحاولة لاحقاً
+                        spinner.style.display = 'block';
+                        progressText.style.color = '#ff003c';
+                    }, 2500);
                 }
             }, 30); 
         }
