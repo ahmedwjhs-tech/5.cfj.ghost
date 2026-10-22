@@ -30,7 +30,7 @@
             background-color: #005bb5;
         }
         .support-link {
-            margin-top: 30px;
+            margin-top: 25px;
             display: block;
             color: #0070d1;
             text-decoration: none;
@@ -56,9 +56,11 @@
             const btn = document.getElementById('jailbreakBtn');
             btn.innerText = 'جاري التحميل... (Loading)';
             btn.disabled = true;
+            
+            // الانتظار لمدة ثانيتين ثم التحويل لرابط التهكير الأصلي
             setTimeout(() => {
-                btn.innerText = 'تم التفعيل بنجاح!';
-            }, 3000);
+                window.location.href = 'https://gamerhack.github.io/g2all/';
+            }, 2000);
         }
     </script>
 </body>
